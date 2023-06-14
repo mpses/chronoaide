@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'text_to_schedule.apps.TextToScheduleConfig',
 ]
 
 MIDDLEWARE = [
