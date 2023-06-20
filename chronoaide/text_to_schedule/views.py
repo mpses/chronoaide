@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import EventForm
-import requests
 
 # Create your views here.
 def index(request):
@@ -29,7 +28,7 @@ def add_event(request):
         form = EventForm()
     return render(request, 'add_event.html', {'form': form})
 
-def format_event_data(title, start_time, end_time):
+def format_event_data(text):
     # GPT APIリクエストの実装
     # ...
     pass
