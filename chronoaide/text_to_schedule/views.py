@@ -11,12 +11,10 @@ def add_event(request):
         form = EventForm(request.POST)
         if form.is_valid():
             # フォームデータを取得
-            title = form.cleaned_data['title']
-            start_time = form.cleaned_data['start_time']
-            end_time = form.cleaned_data['end_time']
+            text = form.cleaned_data['text']
 
             # GPT APIにリクエストを送信してデータを整形
-            gpt_data = format_event_data(title, start_time, end_time)
+            gpt_data = format_event_data(text)
 
             # Google Calendar APIと連携して予定を追加
             add_to_google_calendar(gpt_data)
