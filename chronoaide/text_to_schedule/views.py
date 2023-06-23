@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import EventForm
+import requests
+import json
 
 # Create your views here.
 def index(request):
@@ -26,10 +28,26 @@ def add_event(request):
         form = EventForm()
     return render(request, 'add_event.html', {'form': form})
 
+GPT_API_URL = 'https://api.openai.com/v1/engines/davinci-codex/completions'
+GPT_API_KEY = ''
+
 def format_event_data(text):
     # GPT APIリクエストの実装
-    # ...
-    pass
+    instruction = ''
+    prompt = f'{instruction}「{text}」'
+    payload = {
+        'prompt': prompt,
+        'max_tokens': 100,
+        'temperature': 0.7
+    }
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {GPT_API_KEY}'
+    }
+    response = requests.post(GPT_API_URL, data = json.dumps(payload), headers = headers)
+    gpt_response = response.json()
+    formatted_data = gpt_response['choices'][0]['message']['content'].strip(';')
+    return formatted_data
 
 def add_to_google_calendar(event_data):
     # Google Calendar APIリクエストの実装
