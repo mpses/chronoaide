@@ -49,7 +49,16 @@ For example, output like this "太郎君誕生日会;2023-04-24 10:00;None;代�
     }
     response = requests.post(GPT_API_URL, data = json.dumps(payload), headers = headers)
     gpt_response = response.json()
-    formatted_data = gpt_response['choices'][0]['message']['content'].strip(';')
+    formatted_data = []
+    for line in gpt_response['choices'][0]['message']['content'].strip('\n'):
+        event_name, event_start_date, event_end_date, event_place, event_detail = line.split(';')
+        formatted_data.append(dict(
+            name = event_name,
+            start = event_start_date,
+            end = event_end_date,
+            place = event_place,
+            detail = event_detail
+        ))
     return formatted_data
 
 def add_to_google_calendar(event_data):
