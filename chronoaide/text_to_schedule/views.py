@@ -33,7 +33,10 @@ GPT_API_KEY = ''
 
 def format_event_data(text):
     # GPT APIリクエストの実装
-    instruction = ''
+    instruction = """
+Extract pieces of information (title of schedule, start date and time, end date and time, location, notes) from the message above. Output like "[title of schedule];[start date and time];[end date and time];[location];[notes]". Also, output date and time based on "yyyy-MM-dd HH:mm". If the piece of information does not exist, output None.
+For example, output like this "太郎君誕生日会;2023-04-24 10:00;None;代々木公園;プレゼントを持ってくること。".
+"""
     prompt = f'{instruction}「{text}」'
     payload = {
         'prompt': prompt,
