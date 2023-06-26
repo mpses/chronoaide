@@ -19,7 +19,8 @@ def add_event(request):
             gpt_data = format_event_data(text)
 
             # Google Calendar APIと連携して予定を追加
-            add_to_google_calendar(gpt_data)
+            for event in gpt_data:
+                add_to_google_calendar(event)
 
             # 成功メッセージを表示
             message = "Event added to Google Calendar successfully!"
