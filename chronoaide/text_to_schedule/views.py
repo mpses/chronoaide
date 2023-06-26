@@ -62,7 +62,33 @@ For example, output like this "太郎君誕生日会;2023-04-24 10:00;None;代�
         ))
     return formatted_data
 
+from google.oauth2 import service_account
+import googleapiclient.discovery
+
 def add_to_google_calendar(event_data):
-    # Google Calendar APIリクエストの実装
-    # ...
-    pass
+    # Google Calendar API認証の設定
+    credentials = service_account.Credentials.from_service_account_file(
+        '***.json', # credentialのpath
+        scopes = ['https://www.googleapis.com/auth/calendar']
+    )
+
+    # Google Calendar APIクライアントの作成
+    service = googleapiclient.discovery.build('calendar', 'v3', credentials = credentials)
+
+    # 予定の作成
+    event = {
+        'summary': event_data['name'],
+        'start': {
+            'dateTime': event_data['start'],
+            'timeZone': 'Asia/Tokyo',
+        },
+        'end': {
+            'dateTime': event_data['end'],
+            'timeZone': 'Asia/Tokyo',
+        },
+    }
+
+    # 予定の追加
+    calendar_id = 'primary'  # デフォルトのカレンダーを使用する場合
+    response = service.events().insert(calendarId = calendar_id, body = event).execute()
+    print('Event created: %s' % (response.get('htmlLink')))
