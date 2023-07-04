@@ -13,7 +13,7 @@ def index(request):
     pass
 
 @api_view(['POST'])
-def textToSchedule(request):
+def text_formatter_api(request):
     raw_text = request.data['text']
     # schedule = tts_views.format_event_data(raw_text)
     # for example
